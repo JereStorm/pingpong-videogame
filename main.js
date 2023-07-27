@@ -1,17 +1,22 @@
 "use strict";
 
+let player1 = new Player("jugador1");
+let player2 = new Player("jugador2");
 
-let player1 = document.querySelector("#jugador1");
-console.log(player1)
+player1.showPlayer();
+player2.showPlayer();
 
-let player2 = document.getElementById("jugador2");
-console.log(player2);
+const game = () => {
+    let time = 30;
+    let movementBall = 20;
+    let movementBar = 20;
+    let width = document.documentElement.clientWidth - movementBall;
+    let height = document.documentElement.clientHeight - movementBall;
 
-let btnMover1 = document.querySelector("#moverJugador1");
 
-btnMover1.addEventListener("click", moverPlayer1);
 
-function moverPlayer1() {
-    let data = player1.getBoundingClientRect();
-    player1.style.top = data.top + 15;
+
+
 }
+
+

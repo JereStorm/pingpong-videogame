@@ -2,33 +2,20 @@ body{
     background-color: black;
 }
 
-h1{
-    color: azure;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    margin-top: 50px;
-}
-
-.contenedor{
-    width: 70%;
-    height: 500px;
-    margin: 0px auto;
-    background-color: aqua;
-    border: 2px solid violet;
-    border-radius: 20px;
-    margin-top: 50px;
-    padding: 0px 40px;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-
 .jugador{
     height: 50px;
     width: 5px;
-    background-color: black;
-    margin: 10px ;
+    background-color: rgb(255, 255, 255);
+    margin: 10px;
+    top: 50%;
+    padding: 20px 0px;
 }
 
+#jugador1 {
+    position: absolute;
+    left: 20px;
+}
+#jugador2 {
+    position: absolute;
+    right: 20px;
+}
