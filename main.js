@@ -2,7 +2,7 @@
 
 const game = () => {
     let time = 30;
-    let movementBall = 20;
+    let movementBall = 10;
     let movementBar = 40;
     let width = document.documentElement.clientWidth - movementBall;
     let height = document.documentElement.clientHeight - movementBall;
@@ -10,7 +10,9 @@ const game = () => {
     let controlGame;
     let player1 = null;
     let player2 = null;
-    let ball = document.querySelector("#ball");
+
+    let player1Node = null;
+    let player2Node = null;
 
     function start() {
         init();
@@ -23,6 +25,9 @@ const game = () => {
         ball.direction = 1; // 1 right , 2 left
         player1 = new Player("jugador1");
         player2 = new Player("jugador2");
+
+        player1Node = document.querySelector("#jugador1");
+        player2Node = document.querySelector("#jugador2");
     }
 
     function stop() {
@@ -31,8 +36,68 @@ const game = () => {
     }
 
     function play() {
+        moveBall();
         moveBar();
+        checkIfLost();
     }
+
+    function checkIfLost() {
+        if (ball.offsetLeft >= width) {
+            stop();
+            console.log("punto player 1");
+        }
+        if (ball.offsetLeft <= 0) {
+            stop();
+            console.log("punto player 2");
+        }
+    }
+    function moveBall() {
+        //Checkeamos el estado de la bola antes de seguir moviendola
+        checkStateBall();
+        switch (ball.state) {
+            case 1: // derecha, abajo
+                ball.style.left = (ball.offsetLeft + movementBall) + "px";
+                ball.style.top = (ball.offsetTop + movementBall) + "px";
+                break;
+            case 2: // derecha, arriba
+                ball.style.left = (ball.offsetLeft + movementBall) + "px";
+                ball.style.top = (ball.offsetTop - movementBall) + "px";
+                break;
+            case 3: // izquierda, abajo
+                ball.style.left = (ball.offsetLeft - movementBall) + "px";
+                ball.style.top = (ball.offsetTop + movementBall) + "px";
+                break;
+            case 4: // izquierda, arriba
+                ball.style.left = (ball.offsetLeft - movementBall) + "px";
+                ball.style.top = (ball.offsetTop - movementBall) + "px";
+                break;
+        }
+    }
+
+    function checkStateBall() {
+
+        if (collidePlayer2()) {
+            ball.direction = 2;
+            if (ball.state == 1) ball.state = 3;
+            if (ball.state == 2) ball.state = 4;
+        } else if (collidePlayer1()) {
+            ball.direction = 1;
+            if (ball.state == 3) ball.state = 1;
+            if (ball.state == 4) ball.state = 2;
+        }
+
+
+
+        if (ball.direction === 1) {
+            if (ball.offsetTop >= height) ball.state = 2;
+            else if (ball.offsetTop <= 0) ball.state = 1;
+        } else {
+            if (ball.offsetTop >= height) ball.state = 4;
+            else if (ball.offsetTop <= 0) ball.state = 3;
+        }
+    }
+
+
 
     function moveBar() {
         if (player1.keyPress) {
@@ -47,6 +112,30 @@ const game = () => {
             if (player2.keyCode == "ArrowDown" && (player2.player.offsetTop + player2.player.clientHeight) <= height)
                 player2.moveDown(movementBar);
         }
+
+    }
+
+    function collidePlayer1() {
+
+        if (ball.offsetLeft <= (player1Node.clientWidth + 30) &&
+            ball.offsetTop >= player1Node.offsetTop &&
+            ball.offsetTop <= (player1Node.offsetTop + player1Node.clientHeight)) {
+            console.log("Colision player 1")
+            return true;
+
+        }
+
+        return false;
+    }
+    function collidePlayer2() {
+
+        if (ball.offsetLeft >= (width - player2Node.clientWidth - 30) &&
+            ball.offsetTop >= player2Node.offsetTop &&
+            ball.offsetTop <= (player2Node.offsetTop + player2Node.clientHeight)) {
+            console.log("Colision player 2")
+            return true;
+        }
+        return false;
 
     }
 
@@ -73,7 +162,7 @@ const game = () => {
             player2.keyPress = false;
     }
 
-    
+
     start();
 };
 
