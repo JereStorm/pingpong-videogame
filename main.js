@@ -2,7 +2,7 @@
 
 const game = () => {
     let time = 30;
-    let movementBall = 10;
+    let movementBall = 20;
     let movementBar = 40;
     let width = document.documentElement.clientWidth - movementBall;
     let height = document.documentElement.clientHeight - movementBall;
